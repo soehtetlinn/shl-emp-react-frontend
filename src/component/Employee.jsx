@@ -118,8 +118,9 @@ class Employee extends Component {
     event.preventDefault();
     console.log("id", event.target[0].value, event.target[1].value);
     this.setState({ table: true });
+    console.log('Submitevent>>>',event)
 
-    let body = {
+    let body2 = {
       Email: event.target[0].value,
       Password: event.target[1].value,
       Account: event.target[2].value,
@@ -136,12 +137,36 @@ class Employee extends Component {
       DateOfJoining: event.target[14].value,
       TerminateDate: event.target[15].value,
     };
-    axios
-      .post(process.env.REACT_APP_API_URL + "/api/employee", body, {
-        headers: {
-          authorization: localStorage.getItem("token") || ""
+    let body = 
+    {
+      "operation": "update",
+      "data": {
+        "EmployeeInfo": {
+          "EmployeeId": {
+            "S": "011"
+          },
+          "LastName": {
+            "S": "Lee"
+          }
+        },
+        "UpdatedEmployee": {
+          "Firstname": {
+            "S": "Junior"
+          },
+          "LastName": {
+            "S": "ai"
+          },
+          "age": {
+            "N": "27"
+          },
+          "department": {
+            "S": "SE"
+          }
         }
-      })
+      }
+    }
+    axios
+      .post("https://i5z6ubo553.execute-api.us-east-2.amazonaws.com/prod/api/employee", body)
       .then(res => {
         this.setState({ table: false });
         this.setState({ table: true });

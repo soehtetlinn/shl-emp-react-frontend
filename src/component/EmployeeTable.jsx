@@ -255,7 +255,7 @@ class AdminEmployeeTable extends Component {
     console.log(e);
   }
   renderInfoButton(params) {
-    console.log(params);
+    // console.log(params);
     return <div>
       <FontAwesomeIcon
         icon={faInfoCircle}
@@ -263,14 +263,13 @@ class AdminEmployeeTable extends Component {
       /></div>;
   }
   renderButton(params) {
-    console.log(params);
+    // console.log(params);
     return <FontAwesomeIcon
       icon={faTrash}
       onClick={() => this.onEmployeeDelete(params.data.data["_id"])}
     />;
   }
   renderEditButton(params) {
-    console.log("renderedit",params.data);
     return <FontAwesomeIcon
       icon={faEdit}
       onClick={() => this.props.onEditEmployee(params.data)}

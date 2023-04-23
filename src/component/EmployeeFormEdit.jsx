@@ -65,13 +65,17 @@ class EmployeeFormEdit extends Component {
   };
   loadPositionInfo = () => {
     axios
-      .get(process.env.REACT_APP_API_URL + "/api/position", {
-        headers: {
-          authorization: localStorage.getItem("token") || ""
-        }
-      })
+      .get("https://wck8d3ja87.execute-api.us-east-2.amazonaws.com/prod/api/position")
       .then(response => {
-        this.setState({ positionData: response.data });
+        this.rowDataT = [];
+        response.data.body.message.map(item => {
+          let temp = {
+            "Company":item["companyName"] ? item["companyName"]["S"] : " ",
+            "PositionName":item["positionName"] ? item["positionName"]["S"] : " ",
+          };
+          this.rowDataT.push(temp)
+        });
+        this.setState({ positionData: this.rowDataT });
       })
       .catch(error => {
         console.log(error);
@@ -79,13 +83,17 @@ class EmployeeFormEdit extends Component {
   };
   loadDepartmentInfo = () => {
     axios
-      .get(process.env.REACT_APP_API_URL + "/api/department", {
-        headers: {
-          authorization: localStorage.getItem("token") || ""
-        }
-      })
+      .get("https://g32cjkxwpd.execute-api.us-east-2.amazonaws.com/prod/api/department")
       .then(response => {
-        this.setState({ departmentData: response.data });
+        this.rowDataT = [];
+        response.data.body.message.map(item => {
+          let temp = {
+            "Company":item["companyName"] ? item["companyName"]["S"] : " ",
+            "DepartmentName":item["departmentName"] ? item["departmentName"]["S"] : " ",
+          };
+          this.rowDataT.push(temp)
+        });
+        this.setState({ departmentData: this.rowDataT });
       })
       .catch(error => {
         console.log(error);
@@ -335,10 +343,10 @@ class EmployeeFormEdit extends Component {
                     <option
                       key={index}
                       value={data["_id"]}
-                      selected={
-                        this.props.editData["department"][0]["_id"] ==
-                        data["_id"]
-                      }
+                      // selected={
+                      //   this.props.editData["department"][0]["_id"] ==
+                      //   data["_id"]
+                      // }
                     >
                       {data["DepartmentName"]}
                     </option>
@@ -360,9 +368,9 @@ class EmployeeFormEdit extends Component {
                     <option
                       key={index}
                       value={data["_id"]}
-                      selected={
-                        this.props.editData["position"][0]["_id"] == data["_id"]
-                      }
+                      // selected={
+                      //   this.props.editData["position"][0]["_id"] == data["_id"]
+                      // }
                     >
                       {data["PositionName"]}
                     </option>
