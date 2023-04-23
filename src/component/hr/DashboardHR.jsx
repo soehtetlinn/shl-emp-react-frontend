@@ -101,7 +101,7 @@ class DashboardHR extends Component {
                 <li>
                   <Link to="/hr/employee">
                     <FontAwesomeIcon icon={faUser} className="sidebar-icon" /> 
-                    User 
+                    Employees
                   </Link> 
                 </li>
                 {/* <li>
@@ -238,7 +238,7 @@ class DashboardHR extends Component {
                   path="/hr"
                   render={() => <Redirect to="hr/employee" />}
                 /> */}
-                <Route render={() => <NotFound404/>} />
+                {/* <Route render={() => <NotFound404/>} /> */}
                 
               </Switch>
             </div>
