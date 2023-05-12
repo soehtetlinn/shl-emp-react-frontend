@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_shl_emp_react_frontend_1683864363083-push-trigger-input-set
+  identifier: Build_shl_emp_react_frontend_1683864363083pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_shl_emp_react_frontend_1683864363083
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
