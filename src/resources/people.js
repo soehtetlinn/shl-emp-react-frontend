@@ -19,6 +19,7 @@ const employeeId = (row) => row._id ?? row.EmployeeId;
 export const employeeResource = {
   title: "Employees",
   singular: "Employee",
+  description: "Everyone in the company. Open a record to see their full profile.",
   list: () => "/api/employee",
   create: () => "/api/employee",
   update: (_ctx, row) => `/api/employee/${employeeId(row)}`,
@@ -26,7 +27,7 @@ export const employeeResource = {
   detailPath: (row) => `/hr/employee/${employeeId(row)}/personal-info`,
   columns: [
     { key: "EmployeeCode", header: "Code" },
-    { key: "name", header: "Name", value: fullName },
+    { key: "name", header: "Name", value: fullName, avatar: true },
     { key: "Email", header: "Email" },
     {
       key: "Account",
@@ -98,6 +99,7 @@ const salaryOf = (row) => row.salary?.[0] ?? {};
 export const salaryResource = {
   title: "Salaries",
   singular: "Salary",
+  description: "Monthly pay and bank details, one record per employee.",
   // The list is "employees that have a salary", each carrying it in `salary[0]`.
   list: () => "/api/salary",
   create: (_ctx, values) => `/api/salary/${values.EmployeeID}`,
@@ -109,13 +111,13 @@ export const salaryResource = {
     ConfirmAccountNo: salaryOf(row).AccountNo,
   }),
   columns: [
-    { key: "employee", header: "Employee", value: fullName },
-    { key: "BasicSalary", header: "Basic salary", value: (row) => salaryOf(row).BasicSalary },
+    { key: "employee", header: "Employee", value: fullName, avatar: true },
+    { key: "BasicSalary", header: "Basic salary", value: (row) => salaryOf(row).BasicSalary, number: true },
     { key: "BankName", header: "Bank", value: (row) => salaryOf(row).BankName },
     { key: "AccountNo", header: "Account no.", value: (row) => salaryOf(row).AccountNo },
     { key: "AccountHolderName", header: "Account holder", value: (row) => salaryOf(row).AccountHolderName },
     { key: "IFSCcode", header: "IFSC code", value: (row) => salaryOf(row).IFSCcode },
-    { key: "TaxDeduction", header: "Tax deduction", value: (row) => salaryOf(row).TaxDeduction },
+    { key: "TaxDeduction", header: "Tax deduction", value: (row) => salaryOf(row).TaxDeduction, number: true },
   ],
   fields: [
     {
@@ -151,6 +153,7 @@ const applicant = (row) => row.employee?.[0];
 export const leaveReviewResource = {
   title: "Leave Applications",
   singular: "Leave Application",
+  description: "Approve or reject leave requests from employees.",
   editTitle: "Review leave application",
   list: () => "/api/leave-application-hr",
   update: (_ctx, row) => `/api/leave-application-hr/${row._id}`,
@@ -158,7 +161,7 @@ export const leaveReviewResource = {
   toValues: (row) => ({ ...row, Applicant: fullName(applicant(row)) }),
   columns: [
     { key: "code", header: "Employee code", value: (row) => applicant(row)?.EmployeeCode },
-    { key: "name", header: "Name", value: (row) => fullName(applicant(row)) },
+    { key: "name", header: "Name", value: (row) => fullName(applicant(row)), avatar: true },
     { key: "Leavetype", header: "Leave type" },
     { key: "FromDate", header: "From", value: (row) => dateOnly(row.FromDate) },
     { key: "ToDate", header: "To", value: (row) => dateOnly(row.ToDate) },

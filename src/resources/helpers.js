@@ -1,11 +1,11 @@
 // Shared building blocks for the resource definitions in this folder.
 //
 // A resource describes one CRUD screen as data:
-//   title / singular    headings and button labels
+//   title / singular    headings and button labels; `description` is an optional subtitle
 //   list(ctx)           path to fetch rows from; `unwrap(data)` extracts the array if it is nested
 //   create(ctx, values) / update(ctx, row) / remove(ctx, row)
 //                       paths for each write; leave one out to hide that action
-//   columns             [{ key, header, value?(row), tone?(text) }] — `tone` renders a coloured badge
+//   columns             [{ key, header, value?(row), tone?(text), avatar?, number? }] — see DataTable
 //   fields              form fields, see components/ResourceForm.jsx
 //   toValues(row)       maps a row to form values when the fields live in a nested object
 //   toBody(body, info)  last-minute changes to the request body

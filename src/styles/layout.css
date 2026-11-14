@@ -59,8 +59,12 @@
   color: var(--sidebar-text);
 }
 
+.nav-group + .nav-group {
+  margin-top: 10px;
+}
+
 .sidebar-section {
-  padding: 12px 10px 6px;
+  padding: 8px 10px 6px;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -85,8 +89,10 @@
 }
 
 .nav-link.active {
-  background: var(--primary);
+  background: #4353e6;
   color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgb(67 83 230 / 35%);
 }
 
 .main {
@@ -108,25 +114,50 @@
   border-bottom: 1px solid var(--border);
 }
 
-.topbar-user {
+.topbar-tools {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   margin-left: auto;
   min-width: 0;
 }
 
-.user-name {
-  font-weight: 600;
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  margin: 0 6px 0 10px;
+  padding-left: 14px;
+  border-left: 1px solid var(--border);
+}
+
+.topbar-user-text {
+  display: grid;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.topbar-user-text strong {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.topbar-user-text span {
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
 
 .content {
   padding: 24px;
   width: 100%;
   max-width: 1400px;
+}
+
+.page-subtitle {
+  margin-top: 2px;
+  color: var(--text-muted);
 }
 
 .page-header {
@@ -192,49 +223,130 @@
 .login {
   min-height: 100vh;
   display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+}
+
+.login-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 40px 48px;
+  background: var(--hero);
+  color: #fff;
+}
+
+.login-hero .brand {
+  padding: 0;
+}
+
+.login-hero .brand span {
+  color: rgb(255 255 255 / 75%);
+}
+
+.login-hero h1 {
+  max-width: 12ch;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+
+.login-highlights {
+  display: grid;
+  gap: 14px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  color: rgb(255 255 255 / 88%);
+}
+
+.login-highlights li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.login-highlights svg {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 14%);
+}
+
+.login-footnote {
+  font-size: 0.85rem;
+  color: rgb(255 255 255 / 65%);
+}
+
+.login-main {
+  display: grid;
   place-items: center;
-  padding: 16px;
+  padding: 32px 20px;
 }
 
 .login-card {
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   display: grid;
-  gap: 14px;
-  padding: 32px 28px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  text-align: center;
+  gap: 16px;
 }
 
-.login-card .field {
-  text-align: left;
-}
-
-.login-logo {
-  width: 84px;
-  height: 84px;
-  margin: 0 auto;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid var(--border);
-  background: #fff;
+.login-card h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
 }
 
 .demo-accounts {
-  padding-top: 14px;
+  display: grid;
+  gap: 8px;
+  margin-top: 6px;
+  padding-top: 18px;
   border-top: 1px solid var(--border);
+}
+
+.demo-accounts > p {
   font-size: 0.88rem;
   color: var(--text-muted);
 }
 
-.demo-accounts div {
+.demo-account {
   display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 8px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.demo-account:hover:not(:disabled) {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+
+.demo-account:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.demo-account > span {
+  display: grid;
+  line-height: 1.3;
+}
+
+.demo-account .muted {
+  font-size: 0.85rem;
+}
+
+.demo-account svg {
+  color: var(--primary);
 }
 
 .not-found {
@@ -280,7 +392,28 @@
     padding: 0 12px;
   }
 
-  .topbar-user .badge {
+  .topbar-user-text,
+  .hide-narrow {
+    display: none;
+  }
+
+  .topbar-user {
+    margin: 0 2px;
+    padding-left: 8px;
+  }
+
+  .login {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+  }
+
+  .login-hero {
+    padding: 24px 20px;
+    gap: 20px;
+  }
+
+  .login-highlights,
+  .login-footnote {
     display: none;
   }
 }

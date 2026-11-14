@@ -1,68 +1,70 @@
 /* Design tokens and element defaults. */
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
-  --bg: #f4f6fa;
+  --bg: #f3f5fa;
   --surface: #ffffff;
-  --surface-2: #f1f4f9;
-  --border: #dde3ec;
-  --text: #1c2536;
-  --text-muted: #647089;
-  --primary: #2f5fe0;
-  --primary-hover: #244fc4;
-  --primary-soft: #e6edfd;
+  --surface-2: #f2f4f9;
+  --border: #e1e6ef;
+  --text: #182033;
+  --text-muted: #63708a;
+  --primary: #4353e6;
+  --primary-hover: #3543cc;
+  --primary-soft: #e9ebfd;
   --on-primary: #ffffff;
   --danger: #c93434;
   --danger-soft: #fdeaea;
-  --success: #1c7a4a;
-  --success-soft: #e2f5ea;
+  --success: #17794a;
+  --success-soft: #e0f5e9;
   --warning: #8a5a00;
   --warning-soft: #fdf1d3;
   --info: #1f5fa8;
   --info-soft: #e3effc;
 
-  --sidebar-bg: #1c2536;
-  --sidebar-text: #b8c2d6;
-  --sidebar-active: #2c3a55;
+  --sidebar-bg: #141b2d;
+  --sidebar-text: #aab4cb;
+  --sidebar-active: #232d47;
+  --hero: linear-gradient(135deg, #3b49d8 0%, #2a2f8f 55%, #171c4a 100%);
 
-  --radius: 8px;
-  --shadow: 0 1px 2px rgb(16 24 40 / 6%), 0 1px 3px rgb(16 24 40 / 8%);
+  --radius: 10px;
+  --shadow: 0 1px 2px rgb(16 24 40 / 5%), 0 2px 6px rgb(16 24 40 / 6%);
   --shadow-lg: 0 20px 40px rgb(16 24 40 / 22%);
-  --sidebar-width: 248px;
-  --topbar-height: 56px;
+  --sidebar-width: 256px;
+  --topbar-height: 60px;
 
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 15px;
   line-height: 1.5;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f141d;
-    --surface: #171e2b;
-    --surface-2: #1e2737;
-    --border: #2b3649;
-    --text: #e6eaf2;
-    --text-muted: #94a0b8;
-    --primary: #5b86f5;
-    --primary-hover: #7699f7;
-    --primary-soft: #1d2b4d;
-    --on-primary: #0b1220;
-    --danger: #f07070;
-    --danger-soft: #3a1d22;
-    --success: #5fd197;
-    --success-soft: #153326;
-    --warning: #f0c060;
-    --warning-soft: #3a2e12;
-    --info: #7db6f5;
-    --info-soft: #16304d;
+/* app/theme.js sets data-theme to the resolved light or dark value on startup. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
 
-    --sidebar-bg: #121823;
-    --sidebar-active: #222c40;
-    --shadow: 0 1px 2px rgb(0 0 0 / 40%);
-    --shadow-lg: 0 20px 40px rgb(0 0 0 / 60%);
-  }
+  --bg: #0e131d;
+  --surface: #161d2b;
+  --surface-2: #1d2636;
+  --border: #2a3548;
+  --text: #e6eaf2;
+  --text-muted: #94a0b8;
+  --primary: #7c8af7;
+  --primary-hover: #94a0f9;
+  --primary-soft: #222a55;
+  --on-primary: #0b1020;
+  --danger: #f07070;
+  --danger-soft: #3a1d22;
+  --success: #5fd197;
+  --success-soft: #153326;
+  --warning: #f0c060;
+  --warning-soft: #3a2e12;
+  --info: #7db6f5;
+  --info-soft: #16304d;
+
+  --sidebar-bg: #0b101a;
+  --sidebar-active: #1c2438;
+  --shadow: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-lg: 0 20px 40px rgb(0 0 0 / 60%);
 }
 
 *,
@@ -84,8 +86,9 @@ p {
 }
 
 h1 {
-  font-size: 1.4rem;
-  font-weight: 650;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 h2 {

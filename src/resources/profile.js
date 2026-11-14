@@ -85,6 +85,7 @@ const PENDING = 1;
 export const leaveApplicationResource = employeeOwned({
   title: "Leave Applications",
   singular: "Leave Application",
+  description: "Requests can be changed until HR approves or rejects them.",
   endpoint: "/api/leave-application-emp",
   listKey: "leaveApplication",
   canEdit: (row) =>

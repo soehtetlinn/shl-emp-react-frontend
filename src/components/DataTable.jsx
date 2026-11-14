@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import Avatar from "./Avatar.jsx";
 import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, ChevronsUpDown, Search } from "lucide-react";
 
 const cellValue = (column, row) => (column.value ? column.value(row) : row[column.key]);
@@ -12,7 +13,8 @@ function compare(a, b) {
 
 /**
  * Client-side table with search, sorting and paging.
- * `columns`: [{ key, header, value?(row), tone?(text) }]; `actions(row)` renders the last cell.
+ * `columns`: [{ key, header, value?(row), tone?(text), avatar?, number? }]; `actions(row)` renders the last cell.
+ * `avatar` puts an initials badge before the text; `number` adds thousands separators.
  */
 export default function DataTable({ columns, rows, actions, pageSize = 10, emptyText = "Nothing here yet." }) {
   const [query, setQuery] = useState("");
@@ -100,6 +102,13 @@ export default function DataTable({ columns, rows, actions, pageSize = 10, empty
                         <span className="muted">—</span>
                       ) : tone ? (
                         <span className={`badge badge-${tone}`}>{value}</span>
+                      ) : column.avatar ? (
+                        <span className="cell-person">
+                          <Avatar name={value} />
+                          {String(value)}
+                        </span>
+                      ) : column.number ? (
+                        Number(value).toLocaleString("en-US")
                       ) : (
                         String(value)
                       )}

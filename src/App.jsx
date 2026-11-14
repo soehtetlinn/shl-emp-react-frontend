@@ -3,8 +3,12 @@ import { AuthProvider, useAuth } from "./auth/AuthContext.jsx";
 import { NAVIGATION } from "./app/navigation.js";
 import AppLayout from "./components/AppLayout.jsx";
 import ResourcePage from "./components/ResourcePage.jsx";
+import AdminDashboard from "./pages/dashboards/AdminDashboard.jsx";
+import EmployeeDashboard from "./pages/dashboards/EmployeeDashboard.jsx";
+import HrDashboard from "./pages/dashboards/HrDashboard.jsx";
 import EmployeeDetailPage from "./pages/EmployeeDetailPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import MySalaryPage from "./pages/MySalaryPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import PersonalInfoPage from "./pages/PersonalInfoPage.jsx";
 import { portalResource, projectBidResource } from "./resources/admin.js";
@@ -49,7 +53,8 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
 
           <Route path="/admin" element={<RequireRole role="admin" />}>
-            <Route index element={<Navigate to="role" replace />} />
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
             {crud("role", roleResource)}
             {crud("position", positionResource)}
             {crud("department", departmentResource)}
@@ -59,7 +64,8 @@ export default function App() {
           </Route>
 
           <Route path="/hr" element={<RequireRole role="hr" />}>
-            <Route index element={<Navigate to="employee" replace />} />
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<HrDashboard />} />
             {crud("employee", employeeResource)}
             <Route path="employee/:employeeId" element={<EmployeeDetailPage />}>
               <Route index element={<Navigate to="personal-info" replace />} />
@@ -82,12 +88,14 @@ export default function App() {
 
           <Route path="/employee" element={<RequireRole role="employee" />}>
             <Route element={<OwnRecords />}>
-              <Route index element={<Navigate to="personal-info" replace />} />
+              <Route index element={<Navigate to="dashboard" replace />} />
+              <Route path="dashboard" element={<EmployeeDashboard />} />
               <Route path="personal-info" element={<PersonalInfoPage />} />
               {crud("education", educationResource)}
               {crud("family-info", familyResource)}
               {crud("work-experience", workExperienceResource)}
               {crud("leave-application", leaveApplicationResource)}
+              <Route path="salary" element={<MySalaryPage />} />
             </Route>
             <Route path="*" element={<NotFoundPage />} />
           </Route>

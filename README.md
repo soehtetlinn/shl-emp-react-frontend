@@ -1,13 +1,14 @@
 # SHL Employee Management — frontend
 
-React frontend for the SHL employee management system. Three kinds of account sign in to
-three different workspaces:
+Employee management system that runs entirely in the browser: there is no server to deploy.
+The data layer is an in-browser backend seeded with sample data and saved in `localStorage`.
+Three kinds of account sign in to three different workspaces:
 
 | Account  | Screens |
 | -------- | ------- |
-| Admin    | Roles, Positions, Departments, Project Bidding, Portal Master |
-| HR       | Employees (with each employee's personal info, education, dependents, work experience), Salaries, Leave Applications, Companies, Roles, Positions, Departments, Countries, States, Cities |
-| Employee | Own personal information, education, dependents, work experience, leave applications |
+| Admin    | Dashboard, Roles, Positions, Departments, Project Bidding, Portal Master |
+| HR       | Dashboard with one-click leave approval, Employees (with each employee's personal info, education, dependents, work experience), Salaries, Leave Applications, Companies, Roles, Positions, Departments, Countries, States, Cities |
+| Employee | Dashboard, own personal information, education, dependents, work experience, leave applications, salary |
 
 ## Getting started
 
@@ -16,9 +17,9 @@ npm install
 npm run dev
 ```
 
-The app opens on <http://localhost:3000>. With no backend configured it runs against a
-**demo backend** that lives in the browser (data is kept in `localStorage`), and the login
-page offers one-click demo accounts.
+The app opens on <http://localhost:3000>. The login page offers one-click sample accounts
+(Admin, HR, Employee). Changes are kept in that browser only; the reset button in the top bar
+restores the original sample data, which lives in `src/api/mock/seed.js`.
 
 | Command           | What it does |
 | ----------------- | ------------ |
@@ -27,9 +28,9 @@ page offers one-click demo accounts.
 | `npm run preview` | Serve the production build locally |
 | `npm test`        | Run the test suite |
 
-## Connecting a real backend
+## Connecting a real backend (optional)
 
-Copy `.env.example` to `.env.local` and set `VITE_API_URL` to the server's base URL:
+The app does not need one. If a server is added later, copy `.env.example` to `.env.local` and set `VITE_API_URL` to the server's base URL:
 
 ```
 VITE_API_URL=http://localhost:4000
@@ -52,11 +53,11 @@ and response shapes.
 src/
   main.jsx               entry point
   App.jsx                routes and role guards
-  app/navigation.js      sidebar items and landing page per role
+  app/                   sidebar navigation per role, theme, data-loading hook
   api/
     client.js            the one place HTTP requests are made
     dynamo.js            unwraps DynamoDB-shaped Lambda responses
-    mock/                demo backend and its seed data
+    mock/                the in-browser backend and its sample data
   auth/                  session (AuthContext) and JWT decoding
   components/
     AppLayout.jsx        sidebar + top bar shell
@@ -64,7 +65,10 @@ src/
     ResourceForm.jsx     generic form built from field definitions
     DataTable.jsx        table with search, sorting and paging
     Modal.jsx            dialog
-  pages/                 screens that are not plain CRUD (login, personal info, employee detail)
+    dashboard.jsx        stat cards, panels and bar lists
+    Toast.jsx, Avatar.jsx
+  pages/                 screens that are not plain CRUD (login, dashboards, personal info,
+                         employee detail, my salary)
   resources/             one definition per CRUD screen: endpoints, columns, fields
   styles/                design tokens, layout, components
 ```

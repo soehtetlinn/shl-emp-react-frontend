@@ -43,7 +43,7 @@ describe("collections", () => {
     await hr("PUT", `/api/country/${created._id}`, { CountryName: "Nippon" });
     expect((await hr("GET", "/api/country")).map((c) => c.CountryName)).toContain("Nippon");
     await hr("DELETE", `/api/country/${created._id}`);
-    expect(await hr("GET", "/api/country")).toHaveLength(2);
+    expect(await hr("GET", "/api/country")).toHaveLength(3);
   });
 
   it("refuses to delete a record that is still referenced", async () => {
@@ -53,9 +53,9 @@ describe("collections", () => {
 
   it("updates a portal by its numeric ID", async () => {
     const admin = await signIn("admin@gmail.com", "admin");
-    await admin("PUT", "/api/admin/portal/3", { PortalName: "Guru", Status: 1 });
+    await admin("PUT", "/api/admin/portal/5", { PortalName: "Guru", Status: 1 });
     const portals = await admin("GET", "/api/admin/portal");
-    expect(portals.find((p) => p._id === "pt-3").Status).toBe(1);
+    expect(portals.find((p) => p._id === "pt-5").Status).toBe(1);
   });
 });
 
@@ -67,8 +67,10 @@ describe("permissions", () => {
 
   it("limits an employee to their own records", async () => {
     const employee = await signIn("emp@gmail.com", "emp");
-    expect((await employee("GET", "/api/education/emp-emp")).education).toHaveLength(1);
-    await expect(employee("GET", "/api/education/emp-may")).rejects.toMatchObject({ status: 403 });
+    expect((await employee("GET", "/api/education/emp-emp")).education).toHaveLength(2);
+    expect((await employee("GET", "/api/salary/emp-emp")).salary).toHaveLength(1);
+    await expect(employee("GET", "/api/salary/emp-004")).rejects.toMatchObject({ status: 403 });
+    await expect(employee("GET", "/api/education/emp-004")).rejects.toMatchObject({ status: 403 });
     await expect(employee("GET", "/api/employee")).rejects.toMatchObject({ status: 403 });
   });
 });
@@ -84,9 +86,9 @@ describe("employees and salaries", () => {
   it("allows one salary per employee", async () => {
     const hr = await signIn("hr@gmail.com", "hr");
     const salary = { BasicSalary: 1, BankName: "B", AccountNo: "1", AccountHolderName: "M", IFSCcode: "X", TaxDeduction: 0 };
-    await hr("POST", "/api/salary/emp-may", salary);
-    expect(await hr("GET", "/api/salary")).toHaveLength(3);
-    await expect(hr("POST", "/api/salary/emp-may", salary)).rejects.toMatchObject({ status: 403 });
+    await hr("POST", "/api/salary/emp-023", salary);
+    expect(await hr("GET", "/api/salary")).toHaveLength(22);
+    await expect(hr("POST", "/api/salary/emp-023", salary)).rejects.toMatchObject({ status: 403 });
   });
 
   it("lets HR change the status of a leave application", async () => {

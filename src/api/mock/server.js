@@ -1,11 +1,11 @@
-// In-browser stand-in for the REST backend. It implements the same routes and response
-// shapes the real server uses, so the UI has a single code path. Data lives in localStorage.
+// The in-browser backend. It implements the routes and response shapes of the original REST
+// server, so a real server can be swapped in later (see api/client.js). Data lives in localStorage.
 
 import { ApiError } from "../errors.js";
 import { decodeJwt, encodeUnsignedJwt } from "../../auth/jwt.js";
 import { seed } from "./seed.js";
 
-const STORAGE_KEY = "shl.mockdb.v1";
+const STORAGE_KEY = "shl.mockdb.v2";
 const LATENCY_MS = import.meta.env?.MODE === "test" ? 0 : 180;
 const SESSION_SECONDS = 8 * 60 * 60;
 
@@ -271,8 +271,18 @@ function handleEmployee(user, method, [id], body) {
 }
 
 function handleSalary(user, method, [id], body) {
-  requireRole(user, STAFF);
   const data = load();
+
+  // The one salary route open to employees: reading their own.
+  if (method === "GET" && id) {
+    const employee = findOr404("employees", id);
+    requireAccessTo(user, employee._id);
+    return {
+      ...publicEmployee(employee),
+      salary: data.salaries.filter((s) => s.EmployeeID === employee._id),
+    };
+  }
+  requireRole(user, STAFF);
 
   if (method === "GET" && !id) {
     return data.employees

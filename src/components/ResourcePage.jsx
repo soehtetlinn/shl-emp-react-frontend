@@ -5,6 +5,7 @@ import { api } from "../api/client.js";
 import DataTable from "./DataTable.jsx";
 import Modal from "./Modal.jsx";
 import ResourceForm, { initialFormValues } from "./ResourceForm.jsx";
+import { useToast } from "./Toast.jsx";
 
 /**
  * A complete list / add / edit / delete screen driven by a resource definition
@@ -12,6 +13,7 @@ import ResourceForm, { initialFormValues } from "./ResourceForm.jsx";
  */
 export default function ResourcePage({ resource }) {
   const ctx = useOutletContext() ?? {};
+  const notify = useToast();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
@@ -43,6 +45,7 @@ export default function ResourcePage({ resource }) {
     if (row) await api.put(resource.update(ctx, row), finalBody);
     else await api.post(resource.create(ctx, values), finalBody);
     setEditing(null);
+    notify(`${resource.singular} ${row ? "updated" : "added"}`);
     await load();
   };
 
@@ -51,6 +54,7 @@ export default function ResourcePage({ resource }) {
     try {
       await api.delete(resource.remove(ctx, deleting.row));
       setDeleting(null);
+      notify(`${resource.singular} deleted`);
       await load();
     } catch (error) {
       setDeleting((current) => current && { ...current, busy: false, error: error.message });
@@ -99,7 +103,10 @@ export default function ResourcePage({ resource }) {
   return (
     <section className="page">
       <header className="page-header">
-        <h1>{resource.title}</h1>
+        <div>
+          <h1>{resource.title}</h1>
+          {resource.description && <p className="page-subtitle">{resource.description}</p>}
+        </div>
         {resource.create && (
           <button type="button" className="btn btn-primary" onClick={() => setEditing({})}>
             <Plus size={16} aria-hidden="true" />

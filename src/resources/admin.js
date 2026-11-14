@@ -1,12 +1,13 @@
 import { optionsFrom, toOptions } from "./helpers.js";
 
 const PORTAL_STATUS = { 1: "Enabled", 0: "Disabled" };
-const BID_STATUS = { 1: "Open", 2: "Closed", 3: "Cancelled", 4: "Awarded" };
+export const BID_STATUS = { 1: "Open", 2: "Closed", 3: "Cancelled", 4: "Awarded" };
 const BID_RESOURCES = { 1: "Resource 1", 2: "Resource 2", 3: "Resource 3" };
 
 export const portalResource = {
   title: "Portal Master",
   singular: "Portal",
+  description: "Freelance portals and other channels that bids come from.",
   list: () => "/api/admin/portal",
   create: () => "/api/admin/portal",
   // The backend addresses portals by their numeric `ID` when updating.
@@ -42,6 +43,7 @@ export const portalResource = {
 export const projectBidResource = {
   title: "Project Bidding",
   singular: "Project Bid",
+  description: "Projects the company has bid for, and where each bid stands.",
   list: () => "/api/admin/project-bid",
   create: () => "/api/admin/project-bid",
   update: (_ctx, row) => `/api/admin/project-bid/${row._id}`,
@@ -50,8 +52,8 @@ export const projectBidResource = {
     { key: "ProjectTitle", header: "Project" },
     { key: "portal", header: "Portal", value: (row) => row.portals?.[0]?.PortalName },
     { key: "ProjectURL", header: "URL" },
-    { key: "EstimatedTime", header: "Est. time" },
-    { key: "EstimatedCost", header: "Est. cost" },
+    { key: "EstimatedTime", header: "Est. hours", number: true },
+    { key: "EstimatedCost", header: "Est. cost", number: true },
     {
       key: "Status",
       header: "Status",
